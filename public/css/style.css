@@ -327,3 +327,7 @@ li {
 .pagination:hover {
   color: var(--black);
 }
+
+.logout{
+  text-decoration: none;;
+}
