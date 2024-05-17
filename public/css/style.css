@@ -239,18 +239,36 @@ img {
 }
 
 .article-ul li:hover {
-  scale: 0.99;
+
+  cursor: auto;
 }
 
 
 
 /* Footer */
 .footer {
+  display: flex;
+  gap: 8px;  
   margin: 4rem;
   text-align: center;
-  
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  align-items: center;
+  justify-content: center;  
+  width: 100%;
+  padding: 10px;
+  background-color: var(--primary-dark);
+  color: var(--primary-light);
+  font-size: 18px;
 }
+   
 
+.gear_admin_button {
+  font-size: 1.8rem;
+  color: rgba(36, 36, 36, 0.598);
+  text-decoration: none;;
+}
 
 /* Dashboard Admin */
 .admin-title {

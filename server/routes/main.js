@@ -9,25 +9,40 @@ const { addAbortListener } = require("connect-mongo");
  */
 
 router.get("", async (req, res) => {
-  const locals = {
-    title: "Exer-Gym",
-    description: "Simple website for checking out your exercises.",
-  };
-  
   try {
-    const data = await Post.find();
-    res.render("index", { locals, data });
+    const locals = {
+      title: "Exer-Gym",
+      description: "Simple website for checking out your exercises.",
+    };
+
+    let perPage = 1;
+    let page = req.query.page || 1;
+
+    const data = await Post.aggregate([{ $sort: { createdAt: -1 } }])
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .exec();
+
+    const count = await Post.countDocuments();
+    const nextPage = parseInt(page) + 1;
+
+    const hasNextPage = nextPage <= Math.ceil(count / perPage);
+
+    res.render("index", {
+      locals,
+      data,
+      current: page,
+      nextPage: hasNextPage ? nextPage : null,
+    });
   } catch (error) {
     console.log(error);
   }
 });
 
-
 /**
  * get /about
  * about
  */
-
 
 router.get("/about", (req, res) => {
   const locals = {
