@@ -39,6 +39,41 @@ router.get("", async (req, res) => {
   }
 });
 
+
+
+
+/**
+ * get /
+ * post-exercise: id
+ * 
+ * 
+ */
+
+router.get("/post-exercise/:id", async (req, res) => {
+  try {
+    const locals = {
+      title: "Exer-Gym",
+      description: "Simple website for checking out your exercises.",
+    };
+
+   let slug = req.params.id;
+   const data = await Post.findById( {_id: slug });
+   res.render('post-exercise', { locals, data})
+
+   
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
+
+
+
+
+
+
+
 /**
  * get /about
  * about

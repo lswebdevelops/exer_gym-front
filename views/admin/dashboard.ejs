@@ -1,0 +1,31 @@
+<h2>Dashboard</h2>
+
+<div class="admin-title">
+    <h2>Exercises</h2>
+    <a href="/add-exercise" class="btn">+ Add New</a>
+</div>
+
+<ul class="admin-posts">
+
+   <% data.forEach(post => { %>
+    
+    <li class="exercise-link" >
+        <a href="/post-exercise/<%= post._id %>">
+
+       Exercise- <b> <%= post.title %></b> &nearr;</a>
+
+            <div class="admin-post-controls">
+                <a href="/edit-exercise/<%= post._id %>" class="btn">Edit</a>
+            
+
+            <form action="/delete-exercise/<%= post._id %>?_method=DELETE" method="POST">
+            <input type="submit" value="Delete" class="btn"></form>
+        <hr>
+    </div>
+    </li>
+
+
+
+   <% }) %>
+
+</ul>

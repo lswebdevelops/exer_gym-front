@@ -242,26 +242,38 @@ img {
 
   cursor: auto;
 }
+.exercise-link a {
+  font-size: 24px;
+  cursor: pointer;
+  transition: filter 0.1s;
+  text-decoration: none;
+ 
 
-
-
+}
+.exercise-list-post-exercise {
+  font-size: 24px;
+  cursor: pointer;
+  line-height: 1.6;  
+}
+li {
+   list-style: none;
+}
 /* Footer */
+
 .footer {
   display: flex;
-  gap: 8px;  
-  margin: 4rem;
+  gap: 8px;
+  margin-top: auto;
   text-align: center;
-  position: absolute;
-  bottom: 0;
-  left: 0;
   align-items: center;
-  justify-content: center;  
+  justify-content: center;
   width: 100%;
   padding: 10px;
   background-color: var(--primary-dark);
   color: var(--primary-light);
   font-size: 18px;
 }
+
    
 
 .gear_admin_button {
