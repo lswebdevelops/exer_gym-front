@@ -4,7 +4,18 @@ const router = express.Router();
 
 
 router.get("", (req, res) => {
-    res.send("Hello World!");
+  const locals = {
+    title: "Exer-Gym",
+    description: "Simple website for checking out your exercises."
+  }
+   res.render('index', { locals });
+  });
+
+
+
+
+router.get("/about", (req, res) => {
+   res.render('about');
   });
 
 
