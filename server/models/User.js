@@ -10,6 +10,10 @@ const UserSchema = new Schema( {
     password: {
         type: String,
         required: true       
+    },
+    currentExerciseIndex: {
+        type: Number,
+        default: 0
     }
     
    

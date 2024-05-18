@@ -1,26 +1,27 @@
-<div class="author">
-    <h1 class="author__heading">Daily Exercise</h1>
-</div>
+<div class="container">
+    <div class="author">
+        <h1 class="author__heading">Daily Exercise</h1>
+    </div>
 
-<section class="articles">
-    <ul class="article-ul">
-        
-        <% data.forEach(post => { %>
-            
-            <h2 class="title_exercise">Exercise- <%= post.title %></h2>
-            <li>1- <span> <%= post.exercise1%></span></li>
-            <li>2- <span>  <%= post.exercise2 %></span></li>
-            <li>3- <span>  <%= post.exercise3 %></span></li>
-            <li>4- <span>  <%= post.exercise4 %></span></li>
-            <li>5- <span>  <%= post.exercise5 %></span></li>
-            <li>6- <span>  <%= post.exercise6 %></span></li>
-            <li>7- <span>  <%= post.exercise7 %></span></li>
-            <li>8- <span>  <%= post.exercise8 %></span></li>
-            <li>9- <span>  <%= post.exercise9 %></span></li>
+    <section class="articles">
+        <ul class="article-ul">
+            <% data.forEach(post => { %>
+                <h2 class="title_exercise">Exercise- <%= post.title %></h2>
+                <li>1- <span> <%= post.exercise1 %></span></li>
+                <li>2- <span> <%= post.exercise2 %></span></li>
+                <li>3- <span> <%= post.exercise3 %></span></li>
+                <li>4- <span> <%= post.exercise4 %></span></li>
+                <li>5- <span> <%= post.exercise5 %></span></li>
+                <li>6- <span> <%= post.exercise6 %></span></li>
+                <li>7- <span> <%= post.exercise7 %></span></li>
+                <li>8- <span> <%= post.exercise8 %></span></li>
+                <li>9- <span> <%= post.exercise9 %></span></li>
             <% }) %>
-            
-            <% if (nextPage !== null) { %>             
-                <a href="/?page=<%= nextPage %>" class="pagination">Feito ✔</a>
-            <% } %>
-    </ul>
-</section>
+        </ul>
+    </section>
+
+    <form action="/done" method="POST">
+        <input type="hidden" name="nextExerciseIndex" value="<%= nextExerciseIndex %>">
+        <button type="submit" class="pagination">Done ✔</button>
+    </form>
+</div>

@@ -1,54 +1,44 @@
 const express = require("express");
 const router = express.Router();
 const Post = require("../models/Post");
-const { addAbortListener } = require("connect-mongo");
+const User = require("../models/User");
+const authMiddleware = require('../../middleware/authMiddleware'); // Assuming authMiddleware is placed in a middleware directory
+
+
+ 
 
 /**
  * get /
  * home
  */
-
-router.get("", async (req, res) => {
+router.get("/home", authMiddleware, async (req, res) => {
   try {
     const locals = {
       title: "Exer-Gym",
       description: "Simple website for checking out your exercises.",
     };
 
-    let perPage = 1;
-    let page = req.query.page || 1;
+    const user = await User.findById(req.userId);
+    const totalExercises = await Post.countDocuments();
+    const currentExerciseIndex = user.currentExerciseIndex % totalExercises;
 
-    const data = await Post.aggregate([{ $sort: { createdAt: -1 } }])
-      .skip(perPage * page - perPage)
-      .limit(perPage)
-      .exec();
-
-    const count = await Post.countDocuments();
-    const nextPage = parseInt(page) + 1;
-
-    const hasNextPage = nextPage <= Math.ceil(count / perPage);
+    const data = await Post.find().sort({ createdAt: 1 }).skip(currentExerciseIndex).limit(1).exec();
+    const nextExerciseIndex = (currentExerciseIndex + 1) % totalExercises;
 
     res.render("index", {
       locals,
       data,
-      current: page,
-      nextPage: hasNextPage ? nextPage : null,
+      nextExerciseIndex
     });
   } catch (error) {
     console.log(error);
   }
 });
 
-
-
-
 /**
  * get /
  * post-exercise: id
- * 
- * 
  */
-
 router.get("/post-exercise/:id", async (req, res) => {
   try {
     const locals = {
@@ -56,36 +46,40 @@ router.get("/post-exercise/:id", async (req, res) => {
       description: "Simple website for checking out your exercises.",
     };
 
-   let slug = req.params.id;
-   const data = await Post.findById( {_id: slug });
-   res.render('post-exercise', { locals, data})
-
-   
+    let slug = req.params.id;
+    const data = await Post.findById({ _id: slug });
+    res.render('post-exercise', { locals, data });
   } catch (error) {
     console.log(error);
   }
 });
 
-
-
-
-
-
-
-
-
 /**
- * get /about
- * about
+ * get /Gym Initial Page non - authentification
+ * 
  */
-
-router.get("/about", (req, res) => {
+router.get("/", (req, res) => {
   const locals = {
-    title: "About Page",
+    title: "Initial Page",
     description: "Simple website for checking out your exercises.",
   };
 
-  res.render("about", { locals });
+  res.render("exer_gym", { locals });
+});
+
+/**
+ * post /done
+ * mark current exercise as done
+ */
+router.post("/done", authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    user.currentExerciseIndex = req.body.nextExerciseIndex;
+    await user.save();
+    res.redirect("/home");
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 module.exports = router;
